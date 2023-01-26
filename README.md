@@ -6,6 +6,15 @@ In addition to the files stored in this repository, the following instructions a
 
 ## Preparations
 
+### Git (XCode)
+
+Install it on the command line first, it will ask for permission.
+
+```bash
+sudo softwareupdate -i -a
+xcode-select --install
+```
+
 ### iterm2
 
 Install it manually from the [website](https://www.iterm2.com/), start it and add it to the deck.
@@ -14,26 +23,18 @@ Initial settings:
 
 - Create a new profile in `Preferences > Profile` and import the Default.json
 
-### Git (XCode)
-
-Install it on the command line first, it will ask for permission.
-
-```
-xcode-select --install
-```
-
 ### Backup
 
 Copy the following files in your home directory:
 
-* SSH Keys
-* GPG Keys
-* GitHub/GitLab Tokens in `.env`
-* Custom settings for OhMyZSH
+- SSH Keys
+- GPG Keys
+- GitHub/GitLab Tokens in `.env`
+- Custom settings for OhMyZSH
 
 ```
 cd backup/
-cp -r .ssh .gnupg .env .oh-my-zsh $HOME/
+cp -r .ssh .gnupg .env .oh-my-zsh .aws .azure .docker .kube $HOME/
 ```
 
 > **Note**:
@@ -43,15 +44,8 @@ cp -r .ssh .gnupg .env .oh-my-zsh $HOME/
 
 ### Dot files
 
-```
-git clone https://github.com:hberndt/dotfiles.git
-cd dotfiles
-```
-
-Sync the files.
-
-```
-./bootstrap.sh
+```bash
+bash -c "`curl -fsSL https://github.com/hberndt/dotfiles/raw/main/bootstrap.sh`"
 ```
 
 Apply macOS settings.
@@ -63,7 +57,7 @@ Apply macOS settings.
 Install Homebrew and OhMyZSH.
 
 ```
-./brew_once.sh
+./.install_once.sh
 ```
 
 Install tools and applications with Homebrew bundle.
@@ -78,11 +72,6 @@ This makes use of the [Brewfile](Brewfile) definitions.
 
 ### Tools
 
-
-### Virtualization and Containers
-
-I only use Docker locally, required VMs run in Hetzner Cloud (private), GCP or AWS. Docker for Mac provides the `docker-compose` binary required to run demo environments.
-
 ## Preferences
 
 These are manual settings as they require user awareness.
@@ -96,7 +85,6 @@ sudo fdesetup status
 
 sudo fdesetup enable
 ```
-
 
 ### Keyboard
 

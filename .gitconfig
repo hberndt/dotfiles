@@ -1,17 +1,38 @@
 [user]
 	name = Holger Berndt
-	email = mfriedrich@gitlab.com
-  signingkey = 43FF4CAA
-[alias]
-        l  = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --
+	email = hberndt@bidcore.de
+	signingkey = 8D7367A7
+[core]
+	excludesfile = /Users/hberndt/.gitignore_global
+	autocrlf = input
+[difftool "sourcetree"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = true
 [credential]
 	helper = osxkeychain
-[init]
-	defaultBranch = main
-[pull]
-	rebase = false
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+[push]
+	default = matching
+[http]
+	postBuffer = 157286400
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[commit]
+	template = /Users/hberndt/.stCommitMsg

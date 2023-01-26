@@ -1,20 +1,26 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 
-cd ${0:a:h}
+SOURCE="https://github.com/hberndt/dotfiles"
+TARBALL="$SOURCE/tarball/master"
+TARGET="$HOME/.dotfiles"
+TAR_CMD="tar -xzv -C "$TARGET" --strip-components=1 --exclude='{.gitignore}'"
 
-git pull origin master
-
-function sync() {
-	rsync --exclude ".git/" \
-		--exclude "doc/" \
-		--exclude ".DS_Store" \
-		--exclude ".macos" \
-		--exclude "bootstrap.sh" \
-		--exclude "README.md" \
-		--exclude "LICENSE" \
-		-avh --no-perms . ~;
+is_executable() {
+  type "$1" > /dev/null 2>&1
 }
 
-sync
+if is_executable "git"; then
+  CMD="git clone $SOURCE $TARGET"
+elif is_executable "curl"; then
+  CMD="curl -#L $TARBALL | $TAR_CMD"
+elif is_executable "wget"; then
+  CMD="wget --no-check-certificate -O - $TARBALL | $TAR_CMD"
+fi
 
-unset sync;
+if [ -z "$CMD" ]; then
+  echo "No git, curl or wget available. Aborting."
+else
+  echo "Installing dotfiles..."
+  mkdir -p "$TARGET"
+  eval "$CMD"
+fi

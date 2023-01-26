@@ -72,7 +72,9 @@ plugins=(
   git
   macos
   zsh-autosuggestions
+  dotenv
   iterm2
+  kubectl
   emacs
 )
 

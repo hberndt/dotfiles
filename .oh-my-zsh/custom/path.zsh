@@ -6,6 +6,6 @@ fi
 export PATH=$HOME/bin:$PATH
 
 # default to JDK 11
-j11
+j17
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
