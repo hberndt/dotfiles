@@ -23,4 +23,6 @@ else
   echo "Installing dotfiles..."
   mkdir -p "$TARGET"
   eval "$CMD"
+  cd "$TARGET"
+  echo "Ok, now run .macos, .install_once.sh and brew bundle... good luck"
 fi

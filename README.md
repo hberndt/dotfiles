@@ -70,6 +70,8 @@ This makes use of the [Brewfile](Brewfile) definitions.
 
 ## Essentials
 
+cargo install --features pcre2 ripgrep
+
 ### Tools
 
 ## Preferences

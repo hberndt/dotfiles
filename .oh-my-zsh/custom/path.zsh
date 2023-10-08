@@ -9,3 +9,4 @@ export PATH=$HOME/bin:$PATH
 j17
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
+export PATH="~/.emacs.d/bin"

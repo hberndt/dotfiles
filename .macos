@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 # close any system preference windows first
 osascript -e 'tell application "System Preferences" to quit'
@@ -67,3 +67,5 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 ####################################
 # Fonts
 cp fonts/* ~/Library/Fonts
+
+xcode-select --install
