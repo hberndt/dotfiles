@@ -30,9 +30,7 @@ ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in Ma
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
 
 alias j17="export JAVA_HOME=`/usr/libexec/java_home -v17`; java -version"
-alias j11="export JAVA_HOME=`/usr/libexec/java_home -v11`; java -version"
-alias j10="export JAVA_HOME=`/usr/libexec/java_home -v10`; java -version"
-alias j8="export JAVA_HOME=`/usr/libexec/java_home -v 1.8`; java -version"
+alias j21="export JAVA_HOME=`/usr/libexec/java_home -v21`; java -version"
 alias code='cd ~/work'
 alias codebid='cd ~/work/bidcore'
 

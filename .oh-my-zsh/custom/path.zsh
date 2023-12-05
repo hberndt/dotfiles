@@ -5,8 +5,9 @@ if type brew &>/dev/null; then
 fi
 export PATH=$HOME/bin:$PATH
 
-# default to JDK 11
-j17
+# default to JDK
+export PATH="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home:$PATH"
+export JAVA_HOME=`/usr/libexec/java_home -v 21`
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
 export PATH="~/.emacs.d/bin"
