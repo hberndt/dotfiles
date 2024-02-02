@@ -34,7 +34,7 @@ Copy the following files in your home directory:
 
 ```
 cd backup/
-cp -r .ssh .gnupg .env .oh-my-zsh .aws .azure .docker .kube $HOME/
+cp -r .ssh .gnupg .env .oh-my-zsh .doom.d .vimruntime .aws .azure .docker .kube $HOME/
 ```
 
 > **Note**:
@@ -51,13 +51,13 @@ bash -c "`curl -fsSL https://github.com/hberndt/dotfiles/raw/main/bootstrap.sh`"
 Apply macOS settings.
 
 ```
-./.macos
+./macos
 ```
 
 Install Homebrew and OhMyZSH.
 
 ```
-./.install_once.sh
+./install_once.sh
 ```
 
 Install tools and applications with Homebrew bundle.
