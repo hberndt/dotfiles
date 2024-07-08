@@ -94,10 +94,11 @@
 
 (setq-default shell-file-name "/bin/zsh")
 
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 114) (height . 50)))
+(setq projectile-project-search-path '("~/work"))
 
-;; (set-frame-parameter (selected-frame) 'alpha 90)
-;; (add-to-list 'default-frame-alist '(alpha 90 90))
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
+(set-frame-parameter (selected-frame) 'alpha 90)
+(add-to-list 'default-frame-alist '(alpha 90 90))
 (add-hook! 'dired-mode-hook 'nerd-icons-dired-mode)
 (add-hook! 'dired-mode-hook 'garbage-collect)
 
@@ -149,78 +150,6 @@
     "Opens Dotfiles repository"
     (interactive)
     (dired "~/work/dotfiles"))
-
-(setq-default +doom-dashboard-menu-sections
-    '(("Kill All Buffers"
-        :icon (nerd-icons-octicon "nf-oct-alert" :face 'nerd-icons-red :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lred) :height 0.95)
-        :action doom/kill-all-buffers)
-      ("Open Recent File"
-        :icon (nerd-icons-faicon "nf-fa-clock_o" :face 'nerd-icons-blue :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lblue) :height 0.95)
-        :action helm-recentf)
-      ("Open Project"
-        :icon (nerd-icons-octicon "nf-oct-repo" :face 'nerd-icons-red :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lred) :height 0.95)
-        :action projectile-find-file)
-      ("Open Dotfiles"
-        :icon (nerd-icons-faicon "nf-fa-floppy_o" :face 'nerd-icons-blue :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lblue) :height 0.95)
-        :action hb/open-dotfiles)
-      ("Mastodon"
-        :icon (nerd-icons-mdicon "nf-md-chat" :face 'nerd-icons-maroon :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-maroon) :height 0.95)
-        :action mastodon)
-      ("RSS Feeds"
-        :icon (nerd-icons-faicon "nf-fa-rss" :face 'nerd-icons-yellow :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lyellow) :height 0.95)
-        :action elfeed)
-      ("Open config.org"
-        :icon (nerd-icons-faicon "nf-fa-cogs" :face 'nerd-icons-green :height 0.95)
-        :when (file-directory-p doom-private-dir)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lgreen) :height 0.95)
-        :action hb/open-config-org)
-      ("Doom Reload"
-        :icon (nerd-icons-faicon "nf-fa-refresh" :face 'nerd-icons-orange :height 0.95)
-        :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lorange) :height 0.95)
-        :action doom/reload)))
-
-(setq +doom-dashboard-mode-map (make-sparse-keymap))
-(map! :map +doom-dashboard-mode-map
-    :desc "Forward" :ne "<down>" #'+doom-dashboard/forward-button
-    :desc "Backward" :ne "<up>" #'+doom-dashboard/backward-button
-    :desc "Find File" :ne "f" #'helm-find-files
-    :desc "Recent Files" :ne "r" #'helm-recentf
-    :desc "Doom Reload" :ne "R" #'doom/reload
-    :desc "Open Project" :ne "p" #'projectile-find-file
-    :desc "Config Dir" :ne "C" #'doom/open-private-config
-    :desc "Open Dired" :ne "j" (cmd! (dired "."))
-    :desc "Open Dired in Home Directory" :ne "J" (cmd! (dired "~/"))
-    :desc "Open config.org" :ne "c" #'hb/open-config-org
-    :desc "Open init.org" :ne "i" (cmd! (find-file (expand-file-name "init.org" doom-private-dir)))
-    :desc "Open ZSH Config" :ne "z" (cmd! (find-file "~/.zsh.org"))
-    :desc "Open Polybar Config" :ne "o" (cmd! (find-file "~/.config/polybar/config.org"))
-    :desc "Mastodon" :ne "m" #'mastodon
-    :desc "Mastodon Local" :ne "M" #'mastodon-tl--get-local-timeline
-    :desc "Open Dotfiles" :ne "D" #'hb/open-dotfiles
-    :desc "Open Dotfiles Fetch" :ne "h" (cmd! (find-file "~/work/dotfiles/fetch.org"))
-    :desc "Open Dotfiles README" :ne "H" (cmd! (find-file "~/work/dotfiles/README.org"))
-    :desc "Mastodon Followed Tags" :ne "x" #'mastodon-tl--followed-tags-timeline
-    :desc "Increase Font Size" :ne "+" #'doom/increase-font-size
-    :desc "Decrease Font Size" :ne "-" #'doom/decrease-font-size
-    :desc "Doom Help" :ne "?" #'doom/help
-    :desc "Agenda" :ne "a" #'org-agenda
-    :desc "Open agenda.org" :ne "A" #'open-agenda-org
-    :desc "Open todo.org" :ne "V" (cmd! (find-file "~/org/todo.org"))
-    :desc "Kill All Buffers" :ne "k" #'doom/kill-all-buffers
-    :desc "Switch Buffers" :ne "b" #'helm-buffers-list
-    :desc "Previous Buffer" :ne "P" #'previous-buffer
-    :desc "Open Elfeed" :ne "e" #'elfeed
-    :desc "Open elfeed.org" :ne "E" (cmd! (find-file "~/org/elfeed.org"))
-    :desc "Reset Elfeed" :ne "n" #'elfeed-db-unload
-    :desc "Set Theme" :ne "T" #'load-theme
-    :desc "Open video.org" :ne "v" (cmd! (find-file "~/org/video.org"))
-    :desc "Quit" :ne "Q" #'save-buffers-kill-terminal)
 
 (require 'elfeed-goodies)
 (require 'elfeed-org)

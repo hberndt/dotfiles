@@ -4,9 +4,9 @@
 	signingkey = 8D7367A7
 [core]
 	excludesfile = /Users/hberndt/.gitignore_global
-	autocrlf = false
+	autocrlf = input
 	ignorecase = true
-  editor = emacsclient -c -a ''
+    editor = emacsclient -c -a ''
 
 [difftool]
 	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
@@ -14,36 +14,36 @@
 [mergetool]
 	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
 	trustExitCode = true
-  keepBackup = false
+    keepBackup = false
 [credential]
 	helper = osxkeychain
 
 [branch]
-  autoSetupRebase = true
+    autoSetupRebase = remote
 [push]
-	default = tracking
+	default = upstream
 [http]
 	postBuffer = 157286400
 [color]
-	ui = true
-  branch = auto
-  diff = auto
-  status = auto
+    ui = true
+    branch = auto
+    diff = auto
+    status = auto
 [color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
+    current = yellow reverse
+    local = yellow
+    remote = green
 [color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
 [color "status"]
-  added = yellow
-  changed = green
-  untracked = cyan
+    added = yellow
+    changed = green
+    untracked = cyan
 [commit]
-	template = ~/.dotfiles/.stCommitMsg
+	template = ~/.dotfiles/stCommitMsg
 [alias]
 	co = checkout
 	br = branch
@@ -56,5 +56,5 @@
 	br-ext = "!f() { git checkout -b \"$1\" && git push -u origin \"$1\"; }; f"
 
 [pack]
-  windowMemmory = 10m
-	packSizeLimit = 20m
+    windowMemmory = 10m
+    packSizeLimit = 20m

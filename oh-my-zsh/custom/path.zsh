@@ -10,4 +10,4 @@ export PATH="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home:$PAT
 export JAVA_HOME=`/usr/libexec/java_home -v 21`
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
-export PATH="~/.emacs.d/bin"
+export PATH="$HOME/.emacs.d/bin:$PATH"

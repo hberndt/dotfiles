@@ -20,3 +20,4 @@
 (package! org-modern)
 (package! pinentry)
 (package! sx)
+(package! adoc-mode)
