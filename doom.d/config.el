@@ -105,7 +105,7 @@
 (setq warning-minimum-level :emergency)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 (after! doom-themes
     (setq doom-themes-enable-bold t
@@ -149,7 +149,7 @@
 (defun hb/open-dotfiles ()
     "Opens Dotfiles repository"
     (interactive)
-    (dired "~/work/dotfiles"))
+    (dired "~/.dotfiles"))
 
 (require 'elfeed-goodies)
 (require 'elfeed-org)

@@ -35,7 +35,7 @@ EOF
 
 ####################################
 # Fonts
-cp fonts/* ~/Library/Fonts
+cp -R fonts/* ~/Library/Fonts
 
 ####################################
 # Screen
@@ -66,6 +66,6 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 ####################################
 # Fonts
-cp fonts/* ~/Library/Fonts
+cp -R fonts/* ~/Library/Fonts
 
 xcode-select --install

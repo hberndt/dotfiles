@@ -1,4 +1,5 @@
 # GNU utils path overrides as default CLI tools
+export PATH="/opt/homebrew/bin:$PATH"
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX=$(brew --prefix)
   for d in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do export PATH=$d:$PATH; done
@@ -11,3 +12,5 @@ export JAVA_HOME=`/usr/libexec/java_home -v 21`
 
 export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
+
+export DOCKER_HOST="unix://$HOME/.colima/docker.sock"

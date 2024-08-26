@@ -1,71 +1,8 @@
-#+TITLE: Doom Emacs
-#+AUTHOR: Holger Berndt
-#+EMAIL: hberndt@bidcore.de
-#+STARTUP: showeverything
-#+OPTIONS: toc:nil num:nil
-#+DESCRIPTION: Doom Emacs config on Holger Berndt GitHub Pages. Features Org mode, mixed pitch, keybindings, and dashboard.
-#+KEYWORDS: holger berndt, emacs, github, doom emacs, org mode, macos,
-#+PROPERTY: header-args :tangle
-#+LANGUAGE: en
+;;; $DOOMDIR/config.el -*- lexical-binding: t; no-byte-compile: t; coding: utf-8-unix; -*-
 
-# #+TOC: headlines 2
-
-* Table of Contents :toc:
-- [[#opening][Opening]]
-  - [[#basic-info][Basic Info]]
-  - [[#preferences][Preferences]]
-  - [[#appearance][Appearance]]
-  - [[#doom-themes][Doom Themes]]
-  - [[#garbage-collection][Garbage Collection]]
-- [[#circe][Circe]]
-- [[#dired][Dired]]
-  - [[#file-associations][File Associations]]
-  - [[#keybindings][Keybindings]]
-- [[#doom-dashboard][Doom Dashboard]]
-  - [[#splash-phrases][Splash Phrases]]
-  - [[#functions][Functions]]
-  - [[#menu][Menu]]
-  - [[#keybindings-1][Keybindings]]
-- [[#elfeed][Elfeed]]
-  - [[#preferences-1][Preferences]]
-  - [[#keybindings-2][Keybindings]]
-- [[#helm][Helm]]
-  - [[#helm-org-rifle][Helm Org Rifle]]
-- [[#keybindings-3][Keybindings]]
-  - [[#global-keybindings][Global Keybindings]]
-- [[#magit][Magit]]
-- [[#mastodon][Mastodon]]
-- [[#modeline][Modeline]]
-- [[#mpdel][MPDel]]
-  - [[#functions-1][Functions]]
-  - [[#preferences-2][Preferences]]
-  - [[#keybindings-4][Keybindings]]
-- [[#org][Org]]
-- [[#stack-exchange][Stack Exchange]]
-- [[#treemacs][Treemacs]]
-
-* Opening
-
-Gotta have this at the beginning of the config file.
-
-#+begin_src emacs-lisp :tangle yes
-;;; $DOOMDIR/config.el -*- lexical-binding: t; no-byte-compile: t; -*-
-#+end_src
-
-** Basic Info
-
-Here, I set my name and email address.
-
-#+begin_src emacs-lisp :tangle yes
 (setq user-full-name "Holger Berndt"
-      user-mail-address (concat "hberndt" "@" "bidcore" "." "de"))
-#+end_src
+      user-mail-address "hberndt@bidcore.de")
 
-** Preferences
-
-Fix the garbage collector, enable zoom in and zoom out keybindings.
-
-#+begin_src emacs-lisp :tangle yes
 (setq gc-cons-threshold 134217738
       gc-cons-percentage 0.1
       make-backup-files nil
@@ -74,6 +11,15 @@ Fix the garbage collector, enable zoom in and zoom out keybindings.
       vc-follow-symlinks t
       native-comp-async-report-warnings-errors nil
       load-prefer-newer t)
+(set-language-environment "UTF-8")
+(set-locale-environment "en_US.UTF-8")
+(set-selection-coding-system 'utf-8-unix)
+(set-charset-priority 'unicode)
+(prefer-coding-system 'utf-8-unix)
+(set-buffer-file-coding-system 'utf-8-unix)
+(set-clipboard-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
 (global-set-key (kbd "C-<wheel-up>") 'text-scale-increase)
 (global-set-key (kbd "C-<wheel-down>") 'text-scale-decrease)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -104,24 +50,28 @@ Fix the garbage collector, enable zoom in and zoom out keybindings.
 (add-hook! 'minibuffer-setup-hook 'garbage-collect)
 (add-hook! '+popup-mode-hook (hide-mode-line-mode 1))
 (add-hook! '+popup-mode-hook 'garbage-collect)
-#+end_src
 
-** Appearance
+;;(setq doom-theme 'doom-one)
+;;(setq doom-theme 'doom-palenight)
+;;(setq doom-theme 'doom-solarized-dark)
+(setq doom-theme 'doom-tomorrow-night)
 
-Now the fun stuff, where I set the fonts, theme, and colors.
+(setq which-key-idle-delay 0.2
+      which-key-idle-secondary-delay 0.05
+      +doom-dashboard--width 95
+      +doom-dashboard-banner-padding '(0 . 0))
+(add-hook! 'doom-switch-buffer-hook 'garbage-collect)
 
-#+begin_src emacs-lisp :tangle yes
-
-(setq doom-font (font-spec :family "Mononoki Nerd Font" :size 14 :height 1.0)
-      doom-big-font (font-spec :family "Mononoki Nerd Font" :size 16 :height 1.0)
-      doom-unicode-font (font-spec :family "Mononoki Nerd Font" :size 14 :height 1.0)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 14 :height 1.1))
-(set-frame-font "Mononoki Nerd Font 14" nil t)
+(setq doom-font (font-spec :family "Space Mono Nerd Font" :size 18 :height 1.0)
+      doom-big-font (font-spec :family "Space Mono Nerd Font" :size 20 :height 1.0)
+      doom-unicode-font (font-spec :family "Space Mono Nerd Font" :size 18 :height 1.0)
+      doom-variable-pitch-font (font-spec :family "NotoSerif Nerd Font" :size 18 :height 1.1))
+(set-frame-font "Space Mono Nerd Font 18" nil t)
 
 (custom-set-faces
-  '(mode-line ((t (:family "Mononoki Nerd Font" :size 14))))
-  '(mode-line-active ((t (:family "Mononoki Nerd Font" :size 14))))
-  '(mode-line-inactive ((t (:family "Mononoki Nerd Font" :size 14)))))
+  '(mode-line ((t (:family "Space Mono Nerd Font" :size 18))))
+  '(mode-line-active ((t (:family "Space Mono Nerd Font" :size 18))))
+  '(mode-line-inactive ((t (:family "Space Mono Nerd Font" :size 18)))))
 
 (setq-default ls-lisp-format-time-list '("%d.%m.%Y %I:%M:%S" "%d.%m.%Y %I:%M:%S"))
 (setq ls-lisp-use-localized-time-format t
@@ -137,34 +87,23 @@ Now the fun stuff, where I set the fonts, theme, and colors.
       inhibit-startup-message t
       initial-scratch-message nil
       large-file-warning-threshold nil)
-
-(setq org-directory "~/org/")
-
 (setq-default shell-file-name "/bin/zsh")
 
-(setq initial-frame-alist '((top . 0) (left . 0) (width . 114) (height . 50)))
-#+end_src
+(add-hook! 'helpful-mode-hook 'mixed-pitch-mode)
+(add-hook! 'writeroom-mode-enable-hook 'mixed-pitch-mode)
+(add-hook! 'writeroom-mode-disable-hook 'mixed-pitch-mode)
 
-These next two lines are where the alpha channel for the window is defined.
-
-#+begin_src emacs-lisp :tangle yes
 ;(set-frame-parameter (selected-frame) 'alpha '(70 70))
-;(set-frame-parameter (selected-frame) 'alpha 90)
-;(add-to-list 'default-frame-alist '(alpha 90 90))
+(set-frame-parameter (selected-frame) 'alpha 90)
+(add-to-list 'default-frame-alist '(alpha 90 90))
 (add-hook! 'dired-mode-hook 'nerd-icons-dired-mode)
 (add-hook! 'dired-mode-hook 'garbage-collect)
 
 (setq warning-minimum-level :emergency)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
-#+end_src
+;(scroll-bar-mode -1)
 
-** Doom Themes
-
-Just a couple more things to make our lives easier.
-
-#+begin_src emacs-lisp :tangle yes
 (after! doom-themes
     (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -175,14 +114,12 @@ Just a couple more things to make our lives easier.
     '(font-lock-comment-face :slant italic)
     '(font-lock-keyword-face :slant italic))
 
-(setq fancy-splash-image (concat doom-private-dir "/splash/emacsapple.png"))
-#+end_src
 
-** Garbage Collection
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq display-line-numbers-type t)
 
-Just do it all the time.
 
-#+begin_src emacs-lisp :tangle yes
 (add-hook! 'doom-dashboard-mode-hook 'garbage-collect)
 (add-hook! 'doom-dashboard-mode-hook (hide-mode-line-mode 1))
 (add-hook! 'doom-load-theme-hook 'garbage-collect)
@@ -193,38 +130,38 @@ Just do it all the time.
 (add-hook! 'doom-init-ui-hook 'garbage-collect)
 (add-hook! 'doom-after-init-modules-hook 'garbage-collect)
 (add-hook! 'eww-mode-hook 'garbage-collect)
-#+end_src
 
+(after! circe
+  (custom-set-faces!
+    '(circe-prompt-face :foreground "#0ef")
+    '(circe-server-face :foreground "#ee0")
+    '(circe-my-message-face :weight bold :foreground "#f44")
+    '(circe-originator-face :foreground "b4f"))
+  (add-hook! 'circe-mode-hook 'garbage-collect))
 
-* Dired
-
-** File Associations
-
-#+begin_src emacs-lisp :tangle yes
 (setq dired-open-extensions '(("jpg" . "sxiv")
                               ("png" . "sxiv")
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
 
-#+end_src
-
-** Keybindings
-
-#+begin_src emacs-lisp :tangle yes
 (evil-define-key 'normal dired-mode-map
     (kbd "J") 'image-dired-previous-line-and-display
     (kbd "K") 'image-dired-next-line-and-display)
-#+end_src
-
-* Doom Dashboard
-
-** Functions
 
 
-My customized dashboard. These first two lines are just for setting up my Multiple Cursors package. =Ctrl= + =Shift= + left click and right click can add and remove a cursor, respectively.
+(defadvice! doom-dashboard-widget-loaded-with-phrase ()
+    :override #'doom-dashboard-widget-loaded
+    (insert
+        (propertize
+            (+doom-dashboard--center
+            +doom-dashboard--width
+            (doom-display-benchmark-h 'return))
+            'face 'doom-dashboard-footer-icon)
+        "\n"
+        "Wellcome to emacs
+    "\n"))
 
-#+begin_src emacs-lisp :tangle yes
 (global-set-key (kbd "C-S-<mouse-1>") '+multiple-cursors/evil-mc-toggle-cursor-here)
 (global-set-key (kbd "C-S-<mouse-3>") '+multiple-cursors/evil-mc-undo-cursor)
 
@@ -233,6 +170,7 @@ My customized dashboard. These first two lines are just for setting up my Multip
       agenda-org-file-name "agenda.org"
       agenda-org-directory "~/org/"
 )
+
 (defun hb/open-config-org ()
     "Open your private Config.org file."
     (interactive)
@@ -246,98 +184,47 @@ My customized dashboard. These first two lines are just for setting up my Multip
 (defun hb/open-dotfiles ()
     "Opens Dotfiles repository"
     (interactive)
-    (dired "~/work/dotfiles"))
-#+end_src
+    (dired "~/.dotfiles"))
 
-The code above defines functions and variables for making my customized Dashboard menu work. If you, later on, wish to swap out these quick shortcuts for other files or project
-directories, make sure you change the variable names too, and change the contents of the Dashboard menu sections below.
-
-** Menu
-
-#+begin_src emacs-lisp :tangle yes
 (setq-default +doom-dashboard-menu-sections
     '(("Kill All Buffers"
-        :icon (nerd-icons-octicon "nf-oct-alert" :face 'nerd-icons-red :height 0.95)
+        :icon (nerd-icons-octicon "alert" :face 'nerd-icons-red :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lred) :height 0.95)
         :action doom/kill-all-buffers)
       ("Open Recent File"
-        :icon (nerd-icons-faicon "nf-fa-clock_o" :face 'nerd-icons-blue :height 0.95)
+        :icon (nerd-icons-faicon "clock-o" :face 'nerd-icons-blue :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lblue) :height 0.95)
         :action helm-recentf)
       ("Open Project"
-        :icon (nerd-icons-octicon "nf-oct-repo" :face 'nerd-icons-red :height 0.95)
+        :icon (nerd-icons-octicon "repo" :face 'nerd-icons-red :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lred) :height 0.95)
         :action projectile-find-file)
+      ; ("Org Agenda"
+      ;  :icon (nerd-icons-faicon "calendar" :face 'nerd-icons-maroon :height 0.95)
+      ;  :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lmaroon) :height 0.95)
+      ;  :action org-agenda)
       ("Open Dotfiles"
-        :icon (nerd-icons-faicon "nf-fa-floppy_o" :face 'nerd-icons-blue :height 0.95)
+        :icon (nerd-icons-faicon "floppy-o" :face 'nerd-icons-blue :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lblue) :height 0.95)
         :action hb/open-dotfiles)
       ("Mastodon"
-        :icon (nerd-icons-mdicon "nf-md-chat" :face 'nerd-icons-maroon :height 0.95)
+        :icon (nerd-icons-material "chat" :face 'nerd-icons-maroon :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-maroon) :height 0.95)
         :action mastodon)
       ("RSS Feeds"
-        :icon (nerd-icons-faicon "nf-fa-rss" :face 'nerd-icons-yellow :height 0.95)
+        :icon (nerd-icons-faicon "rss" :face 'nerd-icons-yellow :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lyellow) :height 0.95)
         :action elfeed)
       ("Open config.org"
-        :icon (nerd-icons-faicon "nf-fa-cogs" :face 'nerd-icons-green :height 0.95)
+        :icon (nerd-icons-faicon "cogs" :face 'nerd-icons-green :height 0.95)
         :when (file-directory-p doom-private-dir)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lgreen) :height 0.95)
         :action hb/open-config-org)
       ("Doom Reload"
-        :icon (nerd-icons-faicon "nf-fa-refresh" :face 'nerd-icons-orange :height 0.95)
+        :icon (nerd-icons-faicon "refresh" :face 'nerd-icons-orange :height 0.95)
         :face (:inherit (doom-dashboard-menu-title bold) :inherit (nerd-icons-lorange) :height 0.95)
         :action doom/reload)))
-#+end_src
 
-Each menu item should share a similar color with its respective icon. Using a value for the height other than =0.94= or =0.95= will cause the menu to appear crooked.
-
-** Keybindings
-
-This part installs the shortcuts for our Doom Dashboard. These keybindings only work in Dashboard mode. This block of code uses the quick-opener functions I defined above, by the
-Dashboard menu sections.
-
-| Keybinding | Action                          |
-|------------+---------------------------------|
-| =a=          | Org Agenda                      |
-| =A=          | Open agenda.org                 |
-| =b=          | Switch Buffer                   |
-| =B=          | Switch Buffer                   |
-| =c=          | Open config.org                 |
-| =C=          | Open Doom Config Directory      |
-| =d=          | Open ~/.config Directory        |
-| =D=          | Open Dotfiles Repository        |
-| =e=          | Open Elfeed                     |
-| =E=          | Open elfeed.org                 |
-| =f=          | Helm Find File                  |
-| =F=          | Open Foot Config                |
-| =h=          | Open Dotfiles Fetch             |
-| =H=          | Open Dotfiles README            |
-| =i=          | Open init.org                   |
-| =j=          | Open Dired in Current Directory |
-| =J=          | Open Dired in Home Directory    |
-| =k=          | Kill All Buffers                |
-| =m=          | Mastodon                        |
-| =M=          | Mastodon Local                  |
-| =o=          | Open Polybar Config             |
-| =p=          | Open Project                    |
-| =P=          | Previous Buffer                 |
-| =q=          | Open Qutebrowser Config         |
-| =r=          | Helm Recent Files               |
-| =R=          | Doom Reload                     |
-| =s=          | Open Other Dashboard            |
-| =T=          | Select Theme                    |
-| =v=          | Vterm                           |
-| =x=          | Mastodon Followed Tags          |
-| =X=          | Stack Exchange Front Page       |
-| =z=          | Open ZSH Config                 |
-| =Z=          | Open ZSH Theme                  |
-| =?=          | Doom Help                       |
-| =+=          | Increase Font Size              |
-| =-=          | Decrease Font Size              |
-
-#+begin_src emacs-lisp :tangle yes
 (setq +doom-dashboard-mode-map (make-sparse-keymap))
 (map! :map +doom-dashboard-mode-map
     :desc "Forward" :ne "<down>" #'+doom-dashboard/forward-button
@@ -349,31 +236,17 @@ Dashboard menu sections.
     :desc "Config Dir" :ne "C" #'doom/open-private-config
     :desc "Open Dired" :ne "j" (cmd! (dired "."))
     :desc "Open Dired in Home Directory" :ne "J" (cmd! (dired "~/"))
-    :desc "Open config.org" :ne "c" #'tb/open-config-org
+    :desc "Open config.org" :ne "c" #'hb/open-config-org
     :desc "Open init.org" :ne "i" (cmd! (find-file (expand-file-name "init.org" doom-private-dir)))
     :desc "Open ZSH Config" :ne "z" (cmd! (find-file "~/.zsh.org"))
-    :desc "Open Qutebrowser Config" :ne "q" (cmd! (find-file "~/.config/qutebrowser/config.org"))
-    :desc "Open Polybar Config" :ne "o" (cmd! (find-file "~/.config/polybar/config.org"))
-    :desc "Open Foot Config" :ne "F" #'tb/open-foot-org
-    :desc "Open Waybar Config" :ne "w" (cmd! (find-file "~/.config/waybar/config.org"))
-    :desc "Open Waybar Style" :ne "W" (cmd! (find-file "~/.config/waybar/style.org"))
     :desc "Mastodon" :ne "m" #'mastodon
     :desc "Mastodon Local" :ne "M" #'mastodon-tl--get-local-timeline
-    :desc "Open TBcom" :ne "t" #'tb/open-tbcom
-    :desc "Open Dotfiles" :ne "D" #'tb/open-dotfiles
-    :desc "Open Dotfiles Fetch" :ne "h" (cmd! (find-file "~/git/Dotfiles/fetch.org"))
-    :desc "Open Dotfiles README" :ne "H" (cmd! (find-file "~/git/Dotfiles/README.org"))
-    :desc "Stack Exchange Front Page" :ne "X" #'sx-tab-frontpage
+    :desc "Open Dotfiles" :ne "D" #'hb/open-dotfiles
+    :desc "Open Dotfiles Fetch" :ne "h" (cmd! (find-file "~/work/dotfiles/fetch.org"))
+    :desc "Open Dotfiles README" :ne "H" (cmd! (find-file "~/work/dotfiles/README.org"))
     :desc "Mastodon Followed Tags" :ne "x" #'mastodon-tl--followed-tags-timeline
     :desc "Increase Font Size" :ne "+" #'doom/increase-font-size
     :desc "Decrease Font Size" :ne "-" #'doom/decrease-font-size
-    :desc "Open MPDel Playlist" :ne ";" #'mpdel-playlist-open
-    :desc "Open MPDel Browser" :ne "/" #'mpdel-browser-open
-    :desc "Toggle Play/Pause" :ne "," #'libmpdel-playback-play-pause
-    :desc "Open MPDel Artists" :ne "g" #'mpdel-core-open-artists
-    :desc "Play Next Song" :ne "]" #'libmpdel-playback-next
-    :desc "Play Previous Song" :ne "[" #'libmpdel-playback-previous
-    :desc "Clear Current Playlist" :ne "O" #'mpdel-core-replace-current-playlist
     :desc "Doom Help" :ne "?" #'doom/help
     :desc "Open Circe" :ne "." #'circe
     :desc "Agenda" :ne "a" #'org-agenda
@@ -388,23 +261,11 @@ Dashboard menu sections.
     :desc "Set Theme" :ne "T" #'load-theme
     :desc "Open video.org" :ne "v" (cmd! (find-file "~/org/video.org"))
     :desc "Quit" :ne "Q" #'save-buffers-kill-terminal)
-#+end_src
 
-This part removes other elements of the Dashboard.
-
-#+begin_src emacs-lisp :tangle yes
 ;(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-loaded)
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
 (add-hook! '+doom-dashboard-functions (hide-mode-line-mode))
-#+end_src
 
-* Elfeed
-
-This first block of code defines font faces per Elfeed tags, font faces for UI elements, preferences, and hooks.
-
-** Preferences
-
-#+begin_src emacs-lisp :tangle yes
 (require 'elfeed-goodies)
 (require 'elfeed-org)
 
@@ -441,24 +302,16 @@ This first block of code defines font faces per Elfeed tags, font faces for UI e
     (defface tech-entry
         '((t :foreground "#ffff00"))
         "Entry for Tech")
-#+end_src
 
-Now we push all of these font faces to the =elfeed-search= faces list.
+(push '(git git-entry) elfeed-search-face-alist)
+(push '(reddit reddit-entry) elfeed-search-face-alist)
+(push '(youtube youtube-entry) elfeed-search-face-alist)
+(push '(torrents torrents-entry) elfeed-search-face-alist)
+(push '(stack stack-entry) elfeed-search-face-alist)
+(push '(news news-entry) elfeed-search-face-alist)
+(push '(tumblr tumblr-entry) elfeed-search-face-alist)
+(push '(tech tech-entry) elfeed-search-face-alist)
 
-#+begin_src emacs-lisp :tangle yes
-    (push '(git git-entry) elfeed-search-face-alist)
-    (push '(reddit reddit-entry) elfeed-search-face-alist)
-    (push '(youtube youtube-entry) elfeed-search-face-alist)
-    (push '(torrents torrents-entry) elfeed-search-face-alist)
-    (push '(stack stack-entry) elfeed-search-face-alist)
-    (push '(news news-entry) elfeed-search-face-alist)
-    (push '(tumblr tumblr-entry) elfeed-search-face-alist)
-    (push '(tech tech-entry) elfeed-search-face-alist)
-#+end_src
-
-Define additional font faces and hooks.
-
-#+begin_src emacs-lisp :tangle yes
 (custom-set-faces!
     '(elfeed-search-feed-face :foreground "#25c192")
     '(elfeed-search-tag-face :foreground "#f28735")
@@ -475,11 +328,7 @@ Define additional font faces and hooks.
 (add-hook! 'elfeed-show-mode-hook 'mixed-pitch-mode)
 (add-hook! 'elfeed-search-mode-hook (setq header-line-format nil))
 (add-hook! 'elfeed-show-mode-hook (setq header-line-format nil)))
-#+end_src
 
-This second block of code sets preferences for the =elfeed-goodies= package.
-
-#+begin_src emacs-lisp :tangle yes
 (after! elfeed-goodies
     (elfeed-goodies/setup)
     (setq elfeed-goodies/entry-pane-size 0.5
@@ -487,25 +336,7 @@ This second block of code sets preferences for the =elfeed-goodies= package.
           elfeed-goodies/show-mode-padding 1
           elfeed-goodies/feed-source-column-width 20
           elfeed-goodies/tag-column-width 20))
-#+end_src
 
-** Keybindings
-
-I have custom key bindings for Elfeed that will filter the feed list by tag names. Shift + J and Shift + K (or capital J and K) will update the entry pane with the next item in the =elfeed-search=.
-
-| Key | Elfeed Search Filter |
-|-----+----------------------|
-| =q=   | =+tumblr=              |
-| =e=   | =+reddit=              |
-| =p=   | =+stack=               |
-| =m=   | =+media=               |
-| =o=   | =+news=                |
-| =i=   | =+git=                 |
-| =x=   | =+youtube=             |
-| =n=   | =+torrents=            |
-| =v=   | =+tech=                |
-
-#+begin_src emacs-lisp :tangle yes
 (after! elfeed-goodies
     (evil-define-key 'normal elfeed-show-mode-map
         (kbd "J") 'elfeed-goodies/split-show-next
@@ -532,29 +363,15 @@ I have custom key bindings for Elfeed that will filter the feed list by tag name
         :desc "Show selected entry" :ne "RET" #'elfeed-search-show-entry
         :desc "Set filter" :ne "S" #'elfeed-search-set-filter
         :desc "Clear filter" :ne "c" #'elfeed-search-clear-filter))
-#+end_src
 
-* Helm
-
-#+begin_src emacs-lisp :tangle yes
 (after! helm
     (setq helm-show-completion-min-window-height 9))
-#+end_src
 
-** Helm Org Rifle
-
-#+begin_src emacs-lisp :tangle yes
 (after! helm-org-rifle
     (setq helm-org-rifle-show-path t
           helm-org-rifle-show-level-stars t)
     (add-hook! 'helm-org-rifle-after-init-hook 'mixed-pitch-mode))
-#+end_src
 
-* Keybindings
-
-This first bit lets us navigate between windows easier.
-
-#+begin_src emacs-lisp :tangle yes
 (map!
     :m "C-h" #'evil-window-left
     :m "C-j" #'evil-window-down
@@ -563,57 +380,14 @@ This first bit lets us navigate between windows easier.
     :m "C-w" #'evil-window-vsplit
     :m "C-o" #'evil-window-split
 )
-#+end_src
 
-** Global Keybindings
-
-These are global keybindings, which are available in all modes. The Magit key bindings will not work if the file is not in a Git repository. =SPC /= and =SPC z= will only work in an MPDel buffer.
-Obviously, it is not possible to tangle an Org document, if you are not editing an Org document.
-
-| Keybinding | Action                      |
-|------------+-----------------------------|
-| =SPC DEL=    | Clear MPDel Playlist        |
-| =SPC a=      | Toggle Zen Mode             |
-| =SPC b=      | Toggle Beacon Mode          |
-| =SPC c=      | Toggle Multiple Cursors     |
-| =SPC d=      | Insert Org Todo             |
-| =SPC e=      | Open Magit Log Buffer       |
-| =SPC f=      | Helm Org Rifle in Org       |
-| =SPC i=      | Toggle Fullscreen Zen       |
-| =SPC j=      | Magit Pull                  |
-| =SPC k=      | Magit Push Remote           |
-| =SPC l=      | Org Tangle                  |
-| =SPC m=      | Mastodon Boost Toot         |
-| =SPC n=      | Open MPDel Browser          |
-| =SPC p=      | Org Export to HTML          |
-| =SPC r=      | Toggle Rainbow Mode         |
-| =SPC s=      | Toggle Dired Sidebar        |
-| =SPC t=      | Magit Stage File            |
-| =SPC u=      | Delete Active Buffer        |
-| =SPC v=      | Helm Org Rifle on Directory |
-| =SPC x=      | Toggle Mixed Pitch Mode     |
-| =SPC y=      | Open Magit Status Buffer    |
-| =SPC z=      | Play Song in MPDel          |
-| =SPC /=      | Add Song to MPDel Playlist  |
-| =SPC -=      | Mastodon Favorite Toot      |
-| =SPC ==      | Insert Org Time Stamp       |
-| =SPC ]=      | Next Song                   |
-| =SPC [=      | Previous Song               |
-
-#+begin_src emacs-lisp :tangle yes
 (map! :leader
     :desc "Toggle Zen" "a" #'+zen/toggle
     :desc "Beacon Mode" "b" #'beacon-mode
     :desc "Rainbow Mode" "r" #'rainbow-mode
-    :desc "Play song in MPDel" "z" #'mpdnotify-play
     :desc "Toggle Fullscreen Zen" "i" #'+zen/toggle-fullscreen
     :desc "Org Tangle" "l" #'org-babel-tangle
     :desc "Mastodon Toggle Boost" "m" #'mastodon-toot--toggle-boost
-    :desc "Add Song to MPDel Playlist" "/" #'mpdel-core-add-to-current-playlist
-    :desc "MPDel Next Song" "]" #'libmpdel-playback-next
-    :desc "MPDel Previous Song" "[" #'libmpdel-playback-previous
-    :desc "Helm Org Rifle Org" "f" #'helm-org-rifle-org-directory
-    :desc "Helm Org Rifle Directories" "v" #'helm-org-rifle-directories
     :desc "Org Mark Done" "d" #'org-todo
     :desc "Mixed Pitch Mode" "x" #'mixed-pitch-mode
     :desc "Magit Status" "y" #'magit-status
@@ -630,11 +404,7 @@ Obviously, it is not possible to tangle an Org document, if you are not editing 
     :desc "Org Time Stamp" "=" #'org-time-stamp
     :desc "Org Priority Up" "\\" #'org-priority-up
     :desc "Org Priority Down" "'" #'org-priority-down)
-#+end_src
 
-* Magit
-
-#+begin_src emacs-lisp :tangle yes
 (after! magit
     (custom-set-faces!
         '(magit-log-author :foreground "#d04b4e")
@@ -658,22 +428,14 @@ Obviously, it is not possible to tangle an Org document, if you are not editing 
 
 (add-hook! 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
 (add-hook! 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-#+end_src
 
-* Mastodon
-
-#+begin_src emacs-lisp :tangle yes
 (use-package mastodon
     :config
-    (setq mastodon-instance-url "https://fosstodon.org"
-          mastodon-active-user "babkock"))
+    (setq mastodon-instance-url "https://norden.social"
+          mastodon-active-user "hbernt"))
 (add-hook! 'mastodon-toot-mode-hook
     (lambda () (auto-fill-mode -1)))
-#+end_src
 
-* Modeline
-
-#+begin_src emacs-lisp :tangle yes
 (after! modeline
     (setq doom-modeline-buffer-file-name-style 'relative-to-project
           doom-modeline-icon (display-graphic-p)
@@ -699,94 +461,14 @@ Obviously, it is not possible to tangle an Org document, if you are not editing 
               doom-modeline-height 30
               doom-modeline-indent-info t
               doom-modeline-buffer-modification-icon nil)
-#+end_src
 
-* MPDel
-
-** Functions
-
-These two functions are useful for showing MPD notifications with album artwork and artist and album fields. I will add these functions to MPDel's hooks.
-
-#+begin_src emacs-lisp :tangle yes
-(defun mpdnotify ()
-    (interactive)
-    (shell-command "/home/babkock/.ncmpcpp/ncmpcpp-ueberzug/ncmpcpp_cover_art.sh")
-    (notifications-notify
-        :title (shell-command-to-string "mpc --host=127.0.0.2 -f %title% | head -1")
-        :body (concat (shell-command-to-string "mpc --host=127.0.0.2 -f %artist% | head -1") "<i>" (shell-command-to-string "mpc --host=127.0.0.2 -f %album% | head -1") "</i>")
-        :image-path "/tmp/mpd_cover.jpg"
-))
-
-(defun mpdnotify-play ()
-    (interactive)
-    (mpdel-playlist-play)
-    (mpdnotify))
-#+end_src
-
-** Preferences
-
-This is a list of faces for the MPDel interface. After this list is where I add the =mpdnotify= function to the hooks.
-
-#+begin_src emacs-lisp :tangle yes
-(custom-set-faces!
-    '(mpdel-tablist-song-name-face :inherit variable-pitch :weight bold :foreground "#f74e8b")
-    '(mpdel-tablist-artist-face :inherit variable-pitch :weight bold :foreground "#d04b4e")
-    '(mpdel-tablist-album-face :inherit variable-pitch :weight bold :slant italic :foreground "#25c192")
-    '(mpdel-tablist-track-face :inherit variable-pitch :weight bold :foreground "#49a6d0")
-    '(mpdel-playlist-current-song-face :inherit variable-pitch :weight bold :slant italic :foreground "#fdeadb" :background "#000")
-    '(mpdel-tablist-disc-face :foreground "#d8a89a")
-    '(mpdel-tablist-date-face :foreground "#f28735"))
-
-(add-hook! 'mpdel-playlist-mode-hook 'garbage-collect)
-(add-hook! 'mpdel-playlist-mode-hook (hide-mode-line-mode 1))
-(add-hook! 'mpdel-playlist-mode-hook '(hl-line-mode))
-(add-hook! 'mpdel-playlist-mode-hook (setq header-line-format nil))
-(add-hook! 'mpdel-playlist-mode-hook 'mpdnotify)
-(add-hook! 'libmpdel-current-song-changed-hook 'mpdnotify)
-(add-hook! 'mpdel-tablist-mode-hook 'garbage-collect)
-(add-hook! 'mpdel-browser-mode-hook '(hl-line-mode))
-(add-hook! 'mpdel-browser-mode-hook (setq header-line-format nil))
-(add-hook! 'navigel-tablist-mode-hook '(hl-line-mode))
-(add-hook! 'navigel-tablist-mode-hook (setq header-line-format nil))
-(add-hook! 'mpdel-tablist-mode-hook (setq header-line-format nil))
-(add-hook! 'mpdel-tablist-mode-hook (hide-mode-line-mode 1))
-(add-hook! 'navigel-tablist-mode-hook (hide-mode-line-mode 1))
-(after! mpdel
-    (setq libmpdel-hostname "127.0.0.2")
-    (require 'mpdel)
-    (mpdel-mode))
-#+end_src
-
-** Keybindings
-
-#+begin_src emacs-lisp :tangle yes
-(setq mpdel-playlist-mode-map (make-sparse-keymap))
-(map! :map mpdel-playlist-mode-map
-    :desc "Play/Pause" :ne "p" #'libmpdel-playback-play-pause
-    :desc "Browser" :ne "b" #'mpdel-browser-open
-    :desc "Play" :ne "RET" #'mpdnotify-play
-    :desc "Increase Volume" :ne "<right>" #'mpdel-core-volume-increase
-    :desc "Decrease Volume" :ne "<left>" #'mpdel-core-volume-decrease
-    :desc "Clear Playlist" :ne "c" #'mpdel-core-replace-current-playlist
-    :desc "Dired" :ne "e" #'mpdel-core-dired
-    :desc "Set Random" :ne "z" #'libmpdel-playback-set-random
-    :desc "Unset Random" :ne "Z" #'libmpdel-playback-unset-random
-    :desc "Set Single" :ne "y" #'libmpdel-playback-set-single-once
-    :desc "Unset Single" :ne "Y" #'libmpdel-playback-set-single-never
-    :desc "Next Song" :ne ">" #'libmpdel-playback-next
-    :desc "Previous Song" :ne "<" #'libmpdel-playback-previous)
-#+end_src
-
-* Org
-
-#+begin_src emacs-lisp :tangle yes
 (after! org
     (add-hook! 'org-mode-hook 'garbage-collect)
     (add-hook! 'org-mode-hook #'org-modern-mode)
     (add-hook! 'org-agenda-finalize-hook #'org-modern-agenda)
     (add-hook! 'org-mode-hook 'org-fancy-priorities-mode)
     (setq org-directory "~/org/"
-          org-agenda-files '("~/org/todo.org" "~/org/video.org" "~/org/agenda.org")
+          org-agenda-files '("~/org/todo.org" "~/org/agenda.org")
           org-agenda-block-separator 8411
           org-tags-column 0
           org-pretty-entities t
@@ -805,12 +487,12 @@ This is a list of faces for the MPDel interface. After this list is where I add 
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "VIDEO(v)" "IDEA(i)" "DONE(d)" "EVENT(e)"))
           org-todo-keyword-faces
-          '(("TODO" . 'all-the-icons-red)
-            ("NEXT" . 'all-the-icons-blue)
-            ("VIDEO" . 'all-the-icons-yellow)
-            ("IDEA" . 'all-the-icons-green)
-            ("DONE" . 'all-the-icons-orange)
-            ("EVENT" . 'all-the-icons-cyan)))
+          '(("TODO" . 'nerd-icons-red)
+            ("NEXT" . 'nerd-icons-blue)
+            ("VIDEO" . 'nerd-icons-yellow)
+            ("IDEA" . 'nerd-icons-green)
+            ("DONE" . 'nerd-icons-orange)
+            ("EVENT" . 'nerd-icons-cyan)))
     (custom-set-faces!
         '(org-agenda-calendar-event :inherit variable-pitch)
         '(org-agenda-calendar-sexp :inherit variable-pitch)
@@ -847,11 +529,7 @@ This is a list of faces for the MPDel interface. After this list is where I add 
 (font-lock-add-keywords 'org-mode
     '(("^ *\\([-]\\) "
         (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-#+end_src
 
-* Stack Exchange
-
-#+begin_src emacs-lisp :tangle yes
 (after! sx
     (add-hook! 'sx-question-mode-hook (setq header-line-format nil))
     (add-hook! 'sx-question-list-mode-hook (setq header-line-format nil))
@@ -865,25 +543,7 @@ This is a list of faces for the MPDel interface. After this list is where I add 
         '(sx-question-list-unread-question :inherit variable-pitch :weight bold :height 1.09)
         '(sx-question-list-read-question :inherit variable-pitch :height 1.09)
         '(sx-question-mode-title :inherit variable-pitch :height 1.21)))
-#+end_src
 
-* Treemacs
-
-#+begin_src emacs-lisp :tangle yes
 (after! treemacs
     (setq doom-themes-treemacs-theme "doom-colors")
     (setq doom-themes-treemacs-enable-variable-pitch t))
-#+end_src
-
-#+BEGIN_EXPORT html
-<footer>
-    <center>
-    <p>Copyright &copy; 2023 Tanner Babcock.</p>
-    <p>This page licensed under the <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a> (CC-BY-NC 4.0).</p>
-    <p class="nav"><a href="https://babkock.github.io">Home</a> &nbsp;&bull;&nbsp; <a href="https://github.com/Babkock/Babkock.github.io/blob/main/configs/doom.html" target="_blank">Source Code</a> &nbsp;&bull;&nbsp;
-    <a href="https://tannerbabcock.com/home">Website</a> &nbsp;&bull;&nbsp;
-    <a href="https://gitlab.com/Babkock/Dotfiles/-/blob/master/doom.d/README.org" target="_blank">Dotfiles</a> &nbsp;&bull;&nbsp; <a href="https://www.twitch.tv/babkock">Twitch</a> &nbsp;&bull;&nbsp;
-    <a href="https://www.paypal.com/donate/?business=X8ZY4CNBJEXVE&no_recurring=0&item_name=Please+help+me+pay+my+bills%2C+and+make+more+interesting+GNU%2FLinux+content%21+I+appreciate+you%21&currency_code=USD" target="_blank"><i>Donate!</i></a></p>
-    </center>
-</footer>
-#+END_EXPORT
