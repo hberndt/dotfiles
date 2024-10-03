@@ -10,8 +10,9 @@ system_files=(
   "$HOME/.doom.d/init.el"
   "$HOME/.doom.d/init.org"
   "$HOME/.doom.d/config.el"
-  "$HOME/.doom.d/config.org"
+  "$HOME/.doom.d/emacs.org"
   "$HOME/.doom.d/packages.el"
+  "$HOME/.doom.d/README.org"
   "$HOME/.vimruntime/my_configs.vim"
 )
 
@@ -25,8 +26,9 @@ repo_files=(
   "doom.d/init.el"
   "doom.d/init.org"
   "doom.d/config.el"
-  "doom.d/README.org"
+  "doom.d/emacs.org"
   "doom.d/packages.el"
+  "doom.d/README.org"
   "my_configs_vim"
 )
 

@@ -9,7 +9,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 cp oh-my-zsh/custom/* ~/.oh-my-zsh/custom
 cp ssh ~/.ssh
 cp gitconfig ~/.gitconfig
-cp gitignore ~/.gitignore
+cp gitignore ~/.gitignore_global
 cp zshrc ~/.zshrc
 
 brew bundle
