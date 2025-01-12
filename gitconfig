@@ -6,7 +6,7 @@
 	excludesfile = /Users/hberndt/.gitignore_global
 	autocrlf = input
 	ignorecase = true
-    editor = emacsclient -c -a ''
+    editor = vim
 
 [difftool]
 	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
@@ -54,6 +54,7 @@
 	br = branch
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=iso
 	br-ext = "!f() { git checkout -b \"$1\" && git push -u origin \"$1\"; }; f"
+	dlog = !bash ~/bin/gitdlog.sh
 
 [pack]
     windowMemmory = 10m

@@ -62,6 +62,7 @@
 
 (package! all-the-icons)
 (package! nerd-icons)
+(package! nerd-icons-dired)
 (package! beacon)         ;; Honestly really nice
 (package! cl-libify)      ;; This is important to suppress errors
 (package! dired-sidebar)

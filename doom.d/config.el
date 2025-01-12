@@ -59,19 +59,6 @@
 (setq user-full-name "Holger Berndt"
       user-mail-address "hberndt@bidcore.de")
 
-(cond (IS-MAC
-       (setq mac-command-modifier       'meta
-             mac-option-modifier        'alt
-             mac-option-key-is-meta     t
-             mac-right-option-modifier  nil
-             mac-pass-control-to-system nil)))
-
-(setq kill-whole-line t)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type nil)
-
 (setq confirm-kill-emacs nil)
 
 (setq doom-theme 'doom-solarized-dark)
