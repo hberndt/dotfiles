@@ -57,55 +57,32 @@
 ;; they are implemented.
 
 (setq user-full-name "Holger Berndt"
-      user-mail-address "hberndt@bidcore.de")
+        user-mail-address (concat "hberndt" "@" "bidcore" "." "de"))
 
 (setq confirm-kill-emacs nil)
 
+(setq auto-save-default t
+      make-backup-files t)
+
+(setq kill-whole-line t)
+
+;;(setq mac-command-modifier       'meta
+;;      mac-option-modifier        'alt
+;;      mac-right-option-modifier  'alt)
+
 (setq doom-theme 'doom-solarized-dark)
 
-(setq doom-font (font-spec :family "Mononoki Nerd Font" :size 14 :height 1.0)
-      doom-big-font (font-spec :family "Mononoki Nerd Font" :size 16 :height 1.0)
-      doom-unicode-font (font-spec :family "Mononoki Nerd Font" :size 14 :height 1.0)
-      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 14 :height 1.1))
-(set-frame-font "Mononoki Nerd Font 14" nil t)
+(setq doom-font (font-spec :family "Mononoki Nerd Font" :size 11 :height 1.0)
+      doom-big-font (font-spec :family "Mononoki Nerd Font" :size 12 :height 1.0)
+      doom-unicode-font (font-spec :family "Mononoki Nerd Font" :size 12 :height 1.0)
+      doom-variable-pitch-font (font-spec :family "Noto Serif" :size 12 :height 1.1))
+(set-frame-font "Mononoki Nerd Font 11" nil t)
 
 (custom-set-faces
-  '(mode-line ((t (:family "Mononoki Nerd Font" :size 14))))
-  '(mode-line-active ((t (:family "Mononoki Nerd Font" :size 14))))
-  '(mode-line-inactive ((t (:family "Mononoki Nerd Font" :size 14)))))
+  '(mode-line ((t (:family "Mononoki Nerd Font" :size 11))))
+  '(mode-line-active ((t (:family "Mononoki Nerd Font" :size 11))))
+  '(mode-line-inactive ((t (:family "Mononoki Nerd Font" :size 11)))))
 
-(setq gc-cons-threshold 134217738
-      gc-cons-percentage 0.1
-      make-backup-files nil
-      auto-save-default nil
-      create-lockfiles nil
-      vc-follow-symlinks t
-      native-comp-async-report-warnings-errors nil
-      load-prefer-newer t)
-(global-set-key (kbd "C-<wheel-up>") 'text-scale-increase)
-(global-set-key (kbd "C-<wheel-down>") 'text-scale-decrease)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(delete-selection-mode t)
-(setq ranger-show-hidden t)
-(setq scroll-conservatively 101
-      battery-update-interval 2
-      focus-follows-mouse t
-      mouse-wheel-scroll-amount '(2 ((shift) . 2))
-      mouse-wheel-progressive-speed t
-      mouse-wheel-follow-mouse 't
-      display-line-numbers-type t
-      scroll-step 1
-      scroll-margin 2
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01
-      hscroll-step 1
-      hscroll-margin 1
-      writeroom-width 100
-      writeroom-mode-line t
-      writeroom-extra-line-spacing 0.1
-      writeroom-maximize-window t
-      +zen-text-scale 1)
-(setq fancy-battery-show-percentage t)
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 
@@ -116,6 +93,7 @@
 (add-hook! 'doom-switch-buffer-hook 'garbage-collect)
 
 (setq-default ls-lisp-format-time-list '("%d.%m.%Y %I:%M:%S" "%d.%m.%Y %I:%M:%S"))
+
 (setq ls-lisp-use-localized-time-format t
       display-time-format "%I:%M"
       display-time-default-load-average nil
@@ -129,15 +107,6 @@
       initial-scratch-message nil
       large-file-warning-threshold nil)
 
-(add-hook 'window-setup-hook #'toggle-frame-maximized)
-(set-frame-parameter (selected-frame) 'alpha 90)
-(add-to-list 'default-frame-alist '(alpha 90 90))
-
-(setq warning-minimum-level :emergency)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
 (after! doom-themes
     (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -150,6 +119,26 @@
 
 (setq fancy-splash-image (concat doom-private-dir "/splash/emacsapple.png"))
 
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
+(add-to-list 'default-frame-alist '(width . 250))
+(add-to-list 'default-frame-alist '(height . 60))
+
+;; Performance optimizations
+(setq gc-cons-threshold (* 256 1024 1024))
+(setq read-process-output-max (* 4 1024 1024))
+(setq comp-deferred-compilation t)
+(setq comp-async-jobs-number 8)
+
+;; Garbage collector optimization
+(setq gcmh-idle-delay 5)
+(setq gcmh-high-cons-threshold (* 1024 1024 1024))
+
+;; Version control optimization
+(setq vc-handled-backends '(Git))
+
+
 (add-hook! 'dired-mode-hook 'nerd-icons-dired-mode)
 (add-hook! 'dired-mode-hook 'garbage-collect)
 (add-hook! 'doom-dashboard-mode-hook 'garbage-collect)
@@ -158,25 +147,81 @@
 (add-hook! 'doom-first-file-hook 'garbage-collect)
 (add-hook! 'kill-emacs-hook 'garbage-collect)
 (add-hook! 'after-init-hook 'garbage-collect)
-(add-hook! 'after-init-hook 'beacon-mode)
+;;(add-hook! 'after-init-hook 'beacon-mode)
 (add-hook! 'doom-init-ui-hook 'garbage-collect)
 (add-hook! 'doom-after-init-modules-hook 'garbage-collect)
 (add-hook! 'eww-mode-hook 'garbage-collect)
 
 (setq-default shell-file-name "/bin/zsh")
 
+(setq vterm-environment '("TERM=xterm-256color"))
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
+;; open vterm in dired location
+(after! vterm
+  (setq vterm-buffer-name-string "vterm %s")
+
+  ;; Modify the default vterm opening behavior
+  (defadvice! +vterm-use-current-directory-a (fn &rest args)
+    "Make vterm open in the directory of the current buffer."
+    :around #'vterm
+    (let ((default-directory (or (and (buffer-file-name)
+                                      (file-name-directory (buffer-file-name)))
+                                 (and (eq major-mode 'dired-mode)
+                                      (dired-current-directory))
+                                 default-directory)))
+      (apply fn args)))
+
+  ;; Also modify Doom's specific vterm functions
+  (defadvice! +vterm-use-current-directory-b (fn &rest args)
+    "Make Doom's vterm commands open in the directory of the current buffer."
+    :around #'+vterm/here
+    (let ((default-directory (or (and (buffer-file-name)
+                                      (file-name-directory (buffer-file-name)))
+                                 (and (eq major-mode 'dired-mode)
+                                      (dired-current-directory))
+                                 default-directory)))
+      (apply fn args))))
+
+(defun open-vterm-in-current-context ()
+  "Open vterm in the context of the current buffer/window."
+  (interactive)
+  (when-let ((buf (current-buffer)))
+    (with-current-buffer buf
+      (call-interactively #'+vterm/here))))
+
+(setq dired-open-extensions '(("jpg" . "sxiv")
+                              ("png" . "sxiv")
+                              ("mkv" . "mpv")
+                              ("mp4" . "mpv")))
+
+(evil-define-key 'normal dired-mode-map
+    (kbd "J") 'image-dired-previous-line-and-display
+    (kbd "K") 'image-dired-next-line-and-display)
+
+(after! projectile
+  (setq projectile-enable-caching t)
+  (setq projectile-indexing-method 'hybrid))
+
 (setq projectile-project-search-path '("~/work"))
+
+
+;; Path completion
+(projectile-add-known-project "~/.dotfiles")
+(projectile-add-known-project "~/work/bidcore/memphis-apps-gitops")
+(projectile-add-known-project "~/work/bidcore/m2-dbmanager")
+(projectile-add-known-project "~/work/bidcore/m2-documentation")
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-(setq config-org-file-name "emacs.org"
-      config-org-directory "~/.doom.d/"
+(setq config-org-file-name "README.org"
+      config-org-directory "~/.config/doom/"
       agenda-org-file-name "agenda.org"
       agenda-org-directory "~/org/"
 )
-
 (defun hb/open-config-org ()
     "Open your private Config.org file."
     (interactive)
@@ -255,13 +300,7 @@
         '(org-level-7 :inherit outline-7 :weight semi-bold)
         '(org-level-8 :inherit outline-8 :weight semi-bold)))
 
-(after! helm
-    (setq helm-show-completion-min-window-height 9))
-
-(after! helm-org-rifle
-    (setq helm-org-rifle-show-path t
-          helm-org-rifle-show-level-stars t)
-    (add-hook! 'helm-org-rifle-after-init-hook 'mixed-pitch-mode))
+(map! :after magit "C-c C-g" #'magit-status)
 
 (after! magit
 	(custom-set-faces!
@@ -286,3 +325,17 @@
 
 (add-hook! 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
 (add-hook! 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+
+(defun hb/magit-stage-commit-push ()
+  "Stage all, commit with quick message, and push with no questions"
+  (interactive)
+  (magit-stage-modified)
+  (let ((msg (read-string "Commit message: ")))
+    (magit-commit-create (list "-m" msg))
+    (magit-run-git "push" "origin" (magit-get-current-branch))))
+
+(after! treemacs
+    (setq doom-themes-treemacs-theme "doom-colors")
+    (setq doom-themes-treemacs-enable-variable-pitch t))
+
+(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
