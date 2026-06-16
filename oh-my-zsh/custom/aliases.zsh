@@ -29,13 +29,12 @@ trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the 
 ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
 alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
 
-alias j17="export JAVA_HOME=`/usr/libexec/java_home -v 17`; java -version"
 alias j21="export JAVA_HOME=`/usr/libexec/java_home -v 21`; java -version"
-alias j23="export JAVA_HOME=`/usr/libexec/java_home -v 23`; java -version"
+alias j25="export JAVA_HOME=`/usr/libexec/java_home -v 25`; java -version"
 alias code='cd ~/work'
 alias codebid='cd ~/work/bidcore'
 alias dps="docker ps -a --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
-
+alias e="emacsclient -c -n -a 'emacs'"
 #   lr:  Full Recursive Directory Listing
 #   ------------------------------------------
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'

@@ -7,10 +7,10 @@ fi
 export PATH=$HOME/bin:$PATH
 
 # default to JDK
-export PATH="/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home:$PATH"
-export JAVA_HOME=`/usr/libexec/java_home -v 21`
+export PATH="/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home:$PATH"
+export JAVA_HOME=`/usr/libexec/java_home -v 25`
 
-export PATH="/opt/homebrew/opt/node@16/bin:$PATH"
-export PATH="$HOME/.emacs.d/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.config/kustomize/plugin/viaduct.ai/v1/ksops:$PATH"
 
 export DOCKER_HOST="unix://$HOME/.colima/docker.sock"
